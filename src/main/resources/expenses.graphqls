@@ -13,11 +13,14 @@ type Category {
     id: ID!,
     code: String,
     definition: String,
+    actions: [Action],
 }
 
 type Query {
-    expenses:[Expense]
-    categories: [Category]
+    getExpensesWithCode(code: String): [Expense],
+    expenses: [Expense],
+    getCategory(code: String): Category,
+    categories: [Category],
 }
 
 type Mutation {

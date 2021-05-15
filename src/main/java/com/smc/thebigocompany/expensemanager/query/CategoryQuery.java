@@ -20,4 +20,16 @@ public class CategoryQuery implements GraphQLQueryResolver {
         return this.expenseService.getAllCategories();
     }
 
+    public Category getCategory(String code) {
+        List<Category> categories = getCategories();
+
+        for (Category category : categories) {
+            if (category.getCode().equalsIgnoreCase(code)) {
+                return category;
+            }
+        }
+
+        throw new RuntimeException("Cannot find Category code: '" + code + "'");
+    }
+
 }

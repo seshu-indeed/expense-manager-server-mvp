@@ -48,3 +48,75 @@ Solution: I created my own InMemory Map based repository. I had to explicitly ad
 # HOW TO TEST
 Run the Spring Boot application
 Open this link — http://localhost:8080/graphiql — in the browser.
+
+# Setup Data
+```
+mutation setupData {
+  
+  C01: createCategory(code: "C01", definition: "Home") 
+  {
+    ...categoryFields
+  }
+  
+  C02: createCategory(code: "C02", definition: "Groceries") 
+  {
+    ...categoryFields
+  }
+  
+  E01: createExpense(amount: 123, categoryCode: "C01") 
+  {
+    ...expenseFields
+  }
+  
+  E02: createExpense(amount: 234, categoryCode: "C01") 
+  {
+      ...expenseFields
+  }
+  
+  E03: createExpense(amount: 345, categoryCode: "C02") 
+  {
+      ...expenseFields
+  }
+  
+  E04: createExpense(amount: 456, categoryCode: "C02") 
+  {
+      ...expenseFields
+  }
+}
+
+fragment categoryFields on Category {
+	id
+  definition
+}
+
+fragment expenseFields on Expense {
+	id
+  categoryCode
+  actions {
+    timestamp
+  }
+}
+```
+
+# Sample Queries
+
+### Eg 1 
+```
+{
+  expensesUnderC01: getExpensesWithCode(code: "C01") {
+  	...expenseFields
+	}
+  
+  expensesUnderC02: getExpensesWithCode(code: "C02") {
+  	...expenseFields
+	}
+}
+
+fragment expenseFields on Expense {
+	id,
+    categoryCode,
+    actions {
+      timestamp
+    }
+}
+```
