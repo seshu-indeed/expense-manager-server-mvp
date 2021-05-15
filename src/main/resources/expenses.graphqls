@@ -1,0 +1,26 @@
+type Action {
+    timestamp: String
+}
+
+type Expense {
+    id: ID!,
+    amount: Int,
+    categoryCode: String,
+    actions: [Action],
+}
+
+type Category {
+    id: ID!,
+    code: String,
+    definition: String,
+}
+
+type Query {
+    expenses:[Expense]
+    categories: [Category]
+}
+
+type Mutation {
+    createExpense(amount: Int, categoryCode: String!):Expense
+    createCategory(code: String!, definition: String!):Category
+}
